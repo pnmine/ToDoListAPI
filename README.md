@@ -10,8 +10,8 @@
 # Create Model in Models Directory
 
 # Create DbContext
-> Create Diractory : Data
->>  New File : DataContext   (class)
+|-> Create Diractory : Data  
+|--->  New File : DataContext   (class)
 ```c#
 namespace ToDoListAPI.Data
 {
