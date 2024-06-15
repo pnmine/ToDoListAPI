@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoListAPI.Data;
+using ToDoListAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<TodoListService>(); 
+builder.Services.AddScoped<CategoryService>(); 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(option => option.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));

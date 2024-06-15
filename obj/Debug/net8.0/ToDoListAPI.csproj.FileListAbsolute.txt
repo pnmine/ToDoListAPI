@@ -102,3 +102,4 @@ C:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\refint\ToDoListAPI.dll
 C:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ToDoListAPI.pdb
 C:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ToDoListAPI.genruntimeconfig.cache
 C:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ref\ToDoListAPI.dll
+c:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ToDoListAPI.sourcelink.json
