@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<TodoListService>(); 
 builder.Services.AddScoped<CategoryService>(); 
 
+builder.Services.AddControllers().AddNewtonsoftJson();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(option => option.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
 

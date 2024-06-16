@@ -103,3 +103,7 @@ C:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ToDoListAPI.pdb
 C:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ToDoListAPI.genruntimeconfig.cache
 C:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ref\ToDoListAPI.dll
 c:\Users\User\Documents\CODE\ToDoListAPI\obj\Debug\net8.0\ToDoListAPI.sourcelink.json
+c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
+c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

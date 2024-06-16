@@ -12,7 +12,7 @@ using ToDoListAPI.Data;
 namespace ToDoListAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240615153240_CreateTable")]
+    [Migration("20240616030844_CreateTable")]
     partial class CreateTable
     {
         /// <inheritdoc />
