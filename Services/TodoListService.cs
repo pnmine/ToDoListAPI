@@ -43,7 +43,10 @@ namespace ToDoListAPI.Services
 
         public async Task<TodoList> UpdateTodoList(TodoList updateTodoItem)
         {
-            var existingTodoList = await _context.TodoLists.FindAsync(updateTodoItem.Id);
+            var existingTodoList = await _context.TodoLists
+                .Include(t => t.category)
+                .FirstOrDefaultAsync(todo => todo.Id == updateTodoItem.Id);
+
             if (existingTodoList == null)
             {
                 throw new InvalidOperationException($"Not Found TodoItem ID :'{updateTodoItem.Id}'");
@@ -53,7 +56,30 @@ namespace ToDoListAPI.Services
             existingTodoList.StartDate = updateTodoItem.StartDate;
             existingTodoList.EndDate = updateTodoItem.EndDate;
             existingTodoList.Status = updateTodoItem.Status;
-            existingTodoList.category = updateTodoItem.category;
+
+            if (updateTodoItem.category != null && updateTodoItem.category.Name != null)
+            {
+                // ตรวจสอบว่ามี Category ที่มีชื่อเดียวกันอยู่แล้วหรือไม่
+                var existingCategory = await _context.Categories
+                    .FirstOrDefaultAsync(c => c.Name == updateTodoItem.category.Name);
+
+                if (existingCategory != null)
+                {
+                    // ถ้ามี Category ที่มีชื่อเดียวกันอยู่แล้ว ให้นำ Category นั้นมาใช้
+                    existingTodoList.category = existingCategory;
+                }
+                else
+                {
+                    // ถ้าไม่มี Category ที่มีชื่อเดียวกัน ให้สร้าง Category ใหม่
+                    existingTodoList.category = new Category { Name = updateTodoItem.category.Name };
+                }
+            }
+            else
+            {
+                // ถ้าไม่ได้ส่ง Category มา ให้ set Category เป็น null
+                existingTodoList.category = null;
+            }
+
             await _context.SaveChangesAsync();
             return existingTodoList;
         }
@@ -152,7 +178,16 @@ namespace ToDoListAPI.Services
                 // If category name is provided (and ID is 0), create a new category
                 else if (!string.IsNullOrEmpty(todoItemDto.category.Name))
                 {
-                    existingTodoList.category = new Category { Name = todoItemDto.category.Name };
+                    // If only the category name is provided, update the existing category if it exists
+                    if (existingTodoList.category != null)
+                    {
+                        existingTodoList.category.Name = todoItemDto.category.Name;
+                    }
+                    // Otherwise, create a new category
+                    else
+                    {
+                        existingTodoList.category = new Category { Name = todoItemDto.category.Name };
+                    }
                 }
             }
 

@@ -26,5 +26,15 @@ namespace ToDoListAPI.Models.DTOs
     "path": "/Status",
     "op": "replace",
     "value": "1"
+  },
+{
+    "path": "/category/Id",
+    "op": "add",
+    "value": "0"
+  },
+{
+    "path": "/category/Name",
+    "op": "add",
+    "value": "School"
   }
 ] */
