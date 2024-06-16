@@ -98,30 +98,33 @@ namespace ToDoListAPI.Services
 
         public async Task<List<TodoList>> CreateTodoItem(CreateTodoItemDto newTodoItem)
         {
-            // Map DTO to TodoList (แปลง DTO เป็น TodoList)
             var todoList = new TodoList
             {
                 Name = newTodoItem.Name,
                 StartDate = newTodoItem.StartDate,
                 EndDate = newTodoItem.EndDate,
-                Status = newTodoItem.Status,
+                Status = newTodoItem.Status
             };
+
             if (newTodoItem.category != null)
             {
-                // ดึง Category ที่มีอยู่จาก database (ถ้ามี)
-                todoList.category = await _context.Categories.FindAsync(newTodoItem.category.Id);
+                // Check if a category with the same name exists
+                todoList.category = await _context.Categories
+                    .FirstOrDefaultAsync(c => c.Name == newTodoItem.category.Name);
 
-                if (todoList.category == null) // ถ้าไม่พบ Category ใน database
+                // If no matching category is found, create a new one
+                if (todoList.category == null)
                 {
-                    // สร้าง Category ใหม่
-                    todoList.category = new Category { Id = newTodoItem.category.Id, Name = newTodoItem.category.Name };
+                    todoList.category = new Category { Name = newTodoItem.category.Name };
                 }
             }
+
             _context.TodoLists.Add(todoList);
             await _context.SaveChangesAsync();
 
             return await _context.TodoLists.Include(t => t.category).ToListAsync();
         }
+
 
         public async Task<TodoList> PatchTodoItem(int id, [FromBody] JsonPatchDocument<PatchTodoItemDto> patchDocument, ModelStateDictionary modelState)
         {

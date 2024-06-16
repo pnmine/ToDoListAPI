@@ -20,6 +20,12 @@ namespace ToDoListAPI.Controllers
             _categoryService = categoryService;
         }
 
+
+        [HttpGet]
+        public async Task<ActionResult<List<Category>>>GetAllCategory()
+        {
+           return Ok(await _categoryService.GetAllCategories()); 
+        }
         // **GET by ID** (already implemented)
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategoryById(int id)
@@ -32,7 +38,7 @@ namespace ToDoListAPI.Controllers
         public async Task<ActionResult<Category>> CreateCategory(Category newCategory)
         {
             var createdCategory = await _categoryService.AddCategory(newCategory);
-            return CreatedAtRoute("GetCategoryById", new { id = createdCategory.Id }, createdCategory);
+            return Ok(createdCategory); 
         }
 
         // **PUT (Update)**
@@ -58,7 +64,7 @@ namespace ToDoListAPI.Controllers
             try
             {
                 await _categoryService.DeleteCategory(id);
-                return NoContent(); // No content to return on successful deletion
+                return Ok(await _categoryService.GetAllCategories()); // No content to return on successful deletion
             }
             catch (Exception ex)
             {

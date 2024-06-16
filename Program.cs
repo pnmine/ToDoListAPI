@@ -11,13 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<TodoListService>(); 
-builder.Services.AddScoped<CategoryService>(); 
+builder.Services.AddScoped<TodoListService>();
+builder.Services.AddScoped<CategoryService>();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DataContext>(option => option.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<DataContext>(option => option.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 var app = builder.Build();
 
@@ -27,6 +27,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 

@@ -30,10 +30,29 @@ namespace ToDoListAPI.Services
 
         public async Task<Category> AddCategory(Category newCategory)
         {
-            _context.Categories.Add(newCategory);
-            await _context.SaveChangesAsync();
-            return newCategory;
+            // Validate the category name
+            if (string.IsNullOrWhiteSpace(newCategory.Name))
+            {
+                throw new ArgumentException("Category name cannot be empty.");
+            }
+
+            if (await _context.Categories.AnyAsync(c => c.Name.ToLower() == newCategory.Name.ToLower()))
+            {
+                throw new InvalidOperationException("A category with this name already exists.");
+            }
+
+            try
+            {
+                _context.Categories.Add(newCategory);
+                await _context.SaveChangesAsync();
+                return newCategory;
+            }
+            catch (DbUpdateException)
+            {
+                throw new InvalidOperationException("An error occurred while adding the category. Please try again later.");
+            }
         }
+
 
         public async Task<Category> UpdateCategory(Category updateCategory)
         {
@@ -48,7 +67,7 @@ namespace ToDoListAPI.Services
             return existingCategory;
         }
 
-        public async Task DeleteCategory(int id)
+        public async Task<bool> DeleteCategory(int id)
         {
             var categoryToDelete = await _context.Categories.FindAsync(id);
             if (categoryToDelete == null)
@@ -56,8 +75,16 @@ namespace ToDoListAPI.Services
                 throw new Exception($"Category not found with ID: {id}");
             }
 
+            // Check if any todo items are using this category
+            if (await _context.TodoLists.AnyAsync(todo => todo.category != null && todo.category.Id == id))
+            {
+                throw new InvalidOperationException("Cannot delete category because there are todo items associated with it.");
+            }
+
             _context.Categories.Remove(categoryToDelete);
             await _context.SaveChangesAsync();
+
+            return true; // Indicate successful deletion
         }
     }
 

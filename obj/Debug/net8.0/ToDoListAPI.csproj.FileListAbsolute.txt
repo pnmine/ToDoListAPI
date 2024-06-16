@@ -107,3 +107,6 @@ c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Microsoft.AspNetCore.J
 c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Newtonsoft.Json.dll
 c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\TodoList\jsconfig.json
+c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\TodoList\package-lock.json
+c:\Users\User\Documents\CODE\ToDoListAPI\bin\Debug\net8.0\TodoList\package.json
