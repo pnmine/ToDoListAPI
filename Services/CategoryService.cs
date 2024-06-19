@@ -9,7 +9,7 @@ using ToDoListAPI.Models;
 
 namespace ToDoListAPI.Services
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly DataContext _context;
 

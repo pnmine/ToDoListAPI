@@ -24,9 +24,9 @@ namespace ToDoListAPI.Controllers
         {
         _context = context;
         } */
-        private readonly TodoListService _todoListService;
+        private readonly ITodoListService _todoListService;
 
-        public ToDoListController(TodoListService todoListService)
+        public ToDoListController(ITodoListService todoListService)
         {
             _todoListService = todoListService;
         }
@@ -104,12 +104,6 @@ namespace ToDoListAPI.Controllers
         public async Task<ActionResult<List<Category>>> CreateTodoItem(CreateTodoItemDto newTodoItem)
         {
             return Ok(await _todoListService.CreateTodoItem(newTodoItem));
-        }
-
-        [HttpPatch("{id}")]
-        public async Task<ActionResult<Category>> PatchTodoItem(int id, [FromBody] JsonPatchDocument<PatchTodoItemDto> patchDocument)
-        {
-            return Ok(await _todoListService.PatchTodoItem(id, patchDocument, ModelState));
         }
     }
 }

@@ -14,7 +14,7 @@ using ToDoListAPI.Models.DTOs;
 
 namespace ToDoListAPI.Services
 {
-    public class TodoListService
+    public class TodoListService : ITodoListService
     {
         private readonly DataContext _context;
 
@@ -103,7 +103,8 @@ namespace ToDoListAPI.Services
                 Name = newTodoItem.Name,
                 StartDate = newTodoItem.StartDate,
                 EndDate = newTodoItem.EndDate,
-                Status = newTodoItem.Status
+                Status = newTodoItem.Status,
+                category = new Category()
             };
 
             if (newTodoItem.category != null)
@@ -112,7 +113,7 @@ namespace ToDoListAPI.Services
                 todoList.category = await _context.Categories
                     .FirstOrDefaultAsync(c => c.Name == newTodoItem.category.Name);
 
-                // If no matching category is found, create a new one
+                // If no matching category is found, create a new one.
                 if (todoList.category == null)
                 {
                     todoList.category = new Category { Name = newTodoItem.category.Name };
@@ -123,94 +124,6 @@ namespace ToDoListAPI.Services
             await _context.SaveChangesAsync();
 
             return await _context.TodoLists.Include(t => t.category).ToListAsync();
-        }
-
-
-        public async Task<TodoList> PatchTodoItem(int id, [FromBody] JsonPatchDocument<PatchTodoItemDto> patchDocument, ModelStateDictionary modelState)
-        {
-            if (patchDocument == null || id <= 0)
-            {
-                throw new ArgumentException("Invalid patch document or ID.");
-            }
-
-            var existingTodoList = await _context.TodoLists
-                .Include(t => t.category) // Eager load Category
-                .FirstOrDefaultAsync(todo => todo.Id == id);
-
-            if (existingTodoList == null)
-            {
-                throw new KeyNotFoundException($"TodoItem with ID '{id}' not found.");
-            }
-
-            var todoItemDto = new PatchTodoItemDto
-            {
-                Id = existingTodoList.Id,
-                Name = existingTodoList.Name,
-                StartDate = existingTodoList.StartDate,
-                EndDate = existingTodoList.EndDate,
-                Status = existingTodoList.Status,
-                category = existingTodoList.category // ใช้ Category object โดยตรง
-            };
-
-            patchDocument.ApplyTo(todoItemDto, modelState);
-
-            if (!modelState.IsValid)
-            {
-                return null; // หรือ return BadRequest(modelState)
-            }
-
-            // Update existingTodoList based on todoItemDto
-            existingTodoList.Name = todoItemDto.Name;
-            existingTodoList.StartDate = todoItemDto.StartDate;
-            existingTodoList.EndDate = todoItemDto.EndDate;
-            existingTodoList.Status = todoItemDto.Status;
-            existingTodoList.category = todoItemDto.category;
-
-            // Handle Category update
-            if (todoItemDto.category != null)
-            {
-                // If category ID is provided, fetch the category from the database
-                if (todoItemDto.category.Id != 0)
-                {
-                    existingTodoList.category = await _context.Categories.FindAsync(todoItemDto.category.Id);
-                    if (existingTodoList.category == null)
-                    {
-                        throw new KeyNotFoundException($"Category with ID '{todoItemDto.category.Id}' not found.");
-                    }
-                }
-                // If category name is provided (and ID is 0), create a new category
-                else if (!string.IsNullOrEmpty(todoItemDto.category.Name))
-                {
-                    // If only the category name is provided, update the existing category if it exists
-                    if (existingTodoList.category != null)
-                    {
-                        existingTodoList.category.Name = todoItemDto.category.Name;
-                    }
-                    // Otherwise, create a new category
-                    else
-                    {
-                        existingTodoList.category = new Category { Name = todoItemDto.category.Name };
-                    }
-                }
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.TodoLists.Any(e => e.Id == id))
-                {
-                    return null; // Or throw a suitable exception
-                }
-                else
-                {
-                    throw;  // Rethrow the exception to be handled higher up
-                }
-            }
-
-            return existingTodoList;
         }
 
     }

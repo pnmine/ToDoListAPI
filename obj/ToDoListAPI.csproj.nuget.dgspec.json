@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\User\\Documents\\CODE\\ToDoListAPI\\ToDoListAPI.csproj": {}
+    "/Users/pn/Documents/ToDoListAPI/ToDoListAPI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\User\\Documents\\CODE\\ToDoListAPI\\ToDoListAPI.csproj": {
+    "/Users/pn/Documents/ToDoListAPI/ToDoListAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\User\\Documents\\CODE\\ToDoListAPI\\ToDoListAPI.csproj",
+        "projectUniqueName": "/Users/pn/Documents/ToDoListAPI/ToDoListAPI.csproj",
         "projectName": "ToDoListAPI",
-        "projectPath": "c:\\Users\\User\\Documents\\CODE\\ToDoListAPI\\ToDoListAPI.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\User\\Documents\\CODE\\ToDoListAPI\\obj\\",
+        "projectPath": "/Users/pn/Documents/ToDoListAPI/ToDoListAPI.csproj",
+        "packagesPath": "/Users/pn/.nuget/packages/",
+        "outputPath": "/Users/pn/Documents/ToDoListAPI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/pn/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -89,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

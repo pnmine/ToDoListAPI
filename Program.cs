@@ -11,8 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<TodoListService>();
-builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ITodoListService,TodoListService>();
+builder.Services.AddScoped<ICategoryService,CategoryService>();
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 
@@ -27,6 +27,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseCors(builder => builder
     .AllowAnyOrigin()
     .AllowAnyMethod()
